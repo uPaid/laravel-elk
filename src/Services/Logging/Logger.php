@@ -4,8 +4,8 @@ namespace Upaid\Elk\Services\Logging;
 
 use Monolog\Handler\StreamHandler;
 use \Monolog\Logger as BaseLogger;
-use upaid\elk\Services\Logging\Formatters\LogstashFormatter;
-use upaid\elk\Services\Logging\Processors\IntrospectionProcessor;
+use Upaid\elk\Services\Logging\Formatters\LogstashFormatter;
+use Upaid\elk\Services\Logging\Processors\IntrospectionProcessor;
 use Upaid\Elk\Services\Logging\Processors\MaskProcessor;
 use Upaid\Elk\Services\Logging\Processors\TraceSpanProcessor;
 
