@@ -5,7 +5,7 @@
     "homepage": "https://github.com/uPaid/elk",
     "keywords": ["Laravel", "elk"],
     "require": {
-        "illuminate/support": "~5",
+        "illuminate/support": "~5"
     },
     "autoload": {
         "psr-4": {
