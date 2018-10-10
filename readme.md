@@ -1,6 +1,8 @@
 # ELK
 
-Laravel logger for formatting logs for ELK
+Laravel logger for formatting logs for ELK.<br/>
+Adds support for trace / span id according to the format used by Spring Cloud Sleuth.
+Adds also a few additional fields.
 
 ## Installation
 
