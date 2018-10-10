@@ -2,14 +2,14 @@
     "name": "upaid/elk",
     "description": "ELK Logger for Laravel",
     "license": "MIT",
-    "homepage": "https://github.com/uPaid/elk",
+    "homepage": "https://github.com/uPaid/laravel-elk",
     "keywords": ["Laravel", "elk"],
     "require": {
         "illuminate/support": "~5"
     },
     "autoload": {
         "psr-4": {
-            "upaid\\elk\\": "src/"
+            "Upaid\\Elk\\": "src/"
         }
     },
     "extra": {
