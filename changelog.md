@@ -2,7 +2,13 @@
 
 All notable changes to `elk` will be documented in this file.
 
-## Version 1.0
+## Version 0.0.1
 
 ### Added
 - Everything
+
+## Version 0.0.3
+
+### Added
+- Custom channel
+- Improved documentation

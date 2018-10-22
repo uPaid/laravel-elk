@@ -12,19 +12,6 @@ Adds also a few additional fields.
 $ composer require upaid/elk
 ```
 
-#### Add service provider
-
-Add the service provider to the providers array in the config/app.php config file as follows:
-
-``` php
-'providers' => [
-
-    ...
-
-    Upaid\Elk\Providers\ElkServiceProvider::class,
-]
-```
-
 #### Publish the config
 
 Run the following command to publish the package config file:
@@ -40,7 +27,53 @@ ELK_BANKNAME='bank name'
 ELK_CHANNEL='channel for recognizing applications by logstash'
 ```
 
+#### Add logging channel
+
+Add elk channel to the channels array in the config/logging.php config file as follows:
+
+``` php
+'channels' => [
+    'elk' => [
+        'driver' => 'custom',
+        'via' => \Upaid\Elk\Services\Logging\CreateCustomLogger::class,
+        'log_name' => 'global'
+    ],
+    
+    ...
+```
+
+In the same file set default log channel to elk:
+
+``` php
+return [
+    'default' => 'elk',
+    
+    ...
+```
+
+or when you want to use stack channel (default channel is 'stack') add elk to stack channel:
+
+``` php
+'channels' => [
+
+    ...
+    
+    'stack' => [
+        'driver' => 'stack',
+        'channels' => ['elk'],
+    ],
+
+    ...
+```
+
 ## Usage
+
+Standard logging in Laravel (to global.json)
+``` php
+Log::debug('An informational message.');
+```
+
+Logging to custom log file name (in this case to testlog.json):
 
 ``` php
 use \Upaid\Elk\Services\Logging\Logger;
