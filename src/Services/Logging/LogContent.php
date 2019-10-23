@@ -8,30 +8,6 @@ class LogContent
     const CONTEXT_KEY = 'context';
     const LOG_TYPE_KEY = 'log_type';
     /**
-     * <code>[logKey => recordKey]</code>
-     */
-    private const DEFAULT_RECORD_KEYS = [
-        'timestamp',
-        'severity' => 'level_name',
-        'msg' => 'message',
-        'span',
-        'class' => 'class',
-        'exception' => 'exception',
-        'trace',
-        'parent',
-        'bank.name',
-        'environment',
-        'service',
-        'channel',
-        'context' => [
-            'user.phone',
-            'user.email',
-            'card.id',
-        ],
-        'extra',
-        'log_type',
-    ];
-    /**
      * @var array
      */
     private $fields;
@@ -42,10 +18,6 @@ class LogContent
 
     public function __construct(array $fields, bool $withLogType = true)
     {
-        if (!$fields) {
-            $fields = self::DEFAULT_RECORD_KEYS;
-        }
-
         $this->fields = $this->prepareFields($fields);
 
         $this->checkField(self::TIMESTAMP_KEY, true);

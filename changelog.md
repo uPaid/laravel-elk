@@ -12,3 +12,8 @@ All notable changes to `elk` will be documented in this file.
 ### Added
 - Custom channel
 - Improved documentation
+
+## Version 0.0.4
+
+### Added
+- Editable log fields

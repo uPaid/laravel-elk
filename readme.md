@@ -26,6 +26,52 @@ ELK_SERVICE_NAME='app name'
 ELK_BANKNAME='bank name'
 ELK_CHANNEL='channel for recognizing applications by logstash'
 ```
+#### Or override config file
+```
+<?php
+
+return [
+    'logstash' => [
+        'serviceName' => 'app name',
+        'bankName' => 'bank name',
+        'channel' => 'channel for recognizing applications by logstash',
+    ]
+];
+```
+#### Changing default log fields and they order
+To change default log fields or they order override `fields` property in config file
+```
+<?php
+
+return [
+    'logstash' => [
+        'serviceName' => 'app name',
+        'bankName' => 'bank name',
+        'channel' => 'channel for recognizing applications by logstash',
+        'fields' => [
+            'timestamp',
+            'severity' => 'level_name',
+            'msg' => 'message',
+            'span',
+            'class' => 'class',
+            'exception' => 'exception',
+            'trace',
+            'parent',
+            'bank.name',
+            'environment',
+            'service',
+            'channel',
+            'context' => [
+                'user.phone',
+                'user.email',
+                'card.id',
+            ],
+            'extra',
+            'log_type',
+        ],
+    ]
+];
+```
 
 #### Add logging channel
 
