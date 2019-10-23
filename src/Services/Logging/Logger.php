@@ -22,6 +22,7 @@ class Logger extends BaseLogger
     {
         $streamHandler = new StreamHandler($this->getPathToFile($name), BaseLogger::DEBUG);
         $streamHandler->setFormatter(new LogstashFormatter(
+            config('elk.logstash.fields', []),
             config('elk.logstash.serviceName'),
             config('elk.logstash.bankName'),
             config('elk.logstash.channel'),

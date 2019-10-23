@@ -8,6 +8,10 @@ use Upaid\Elk\Services\Logging\LogContent;
 class LogstashFormatter extends NormalizerFormatter
 {
     /**
+     * @var array
+     */
+    private $fields;
+    /**
      * @var string the name of bank for the Logstash log message, used to fill the @bankname field
      */
     protected $bankname;
@@ -24,7 +28,7 @@ class LogstashFormatter extends NormalizerFormatter
      * @param  string  $environment  the environment, used as the "environment" field of logstash
      * @param  string  $channel      the channel, used in filebeat to distinguish the application
      */
-    public function __construct(string $serviceName, string $bankname, ?string $channel, string $environment)
+    public function __construct(array $fields ,string $serviceName, string $bankname, ?string $channel, string $environment)
     {
         // logstash requires a ISO 8601 format date with optional millisecond precision.
         parent::__construct('Y-m-d\TH:i:s.uP');
@@ -32,6 +36,7 @@ class LogstashFormatter extends NormalizerFormatter
         $this->serviceName = $serviceName;
         $this->environment = $environment;
         $this->channel = $channel;
+        $this->fields = $fields;
     }
 
     /**
@@ -41,9 +46,7 @@ class LogstashFormatter extends NormalizerFormatter
     {
         $record = parent::format($record);
 
-        $content = new LogContent();
-
-        $content->add('timestamp', $this->getTimestamp($record));
+        $content = new LogContent($this->fields);
 
         $content->addFromRecord($record);
 
@@ -53,11 +56,6 @@ class LogstashFormatter extends NormalizerFormatter
 
         return $this->printLog($content->getSorted());
 
-    }
-
-    private function getTimestamp(array $record)
-    {
-        return $record['timestamp'] ?? gmdate('c');
     }
 
     private function getGlobalVariables(): array
