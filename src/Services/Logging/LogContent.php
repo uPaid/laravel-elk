@@ -88,6 +88,10 @@ class LogContent
 
     private function addFromContext(array $context): void
     {
+        if (isset($context[self::LOG_TYPE_KEY])) {
+            unset($context[self::LOG_TYPE_KEY]);
+        }
+
         if (!isset($this->fields[self::CONTEXT_KEY])) {
             return;
         }
@@ -123,8 +127,8 @@ class LogContent
             return;
         }
 
-        $value = $record[self::LOG_TYPE_KEY] ?? LogType::TECHNICAL;
-        $value = $value === LogType::BUSINESS ?: LogType::TECHNICAL;
+        $value = $record[self::CONTEXT_KEY][self::LOG_TYPE_KEY] ?? LogType::TECHNICAL;
+        $value = $value === LogType::BUSINESS ? LogType::BUSINESS : LogType::TECHNICAL;
 
         $this->add($logKey, $value);
     }

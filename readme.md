@@ -35,6 +35,7 @@ return [
         'serviceName' => 'app name',
         'bankName' => 'bank name',
         'channel' => 'channel for recognizing applications by logstash',
+        'showLogType' => true,
     ]
 ];
 ```
@@ -69,6 +70,7 @@ return [
             'extra',
             'log_type',
         ],
+        'showLogType' => true,
     ]
 ];
 ```

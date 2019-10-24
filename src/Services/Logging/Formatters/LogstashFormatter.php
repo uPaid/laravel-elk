@@ -21,6 +21,10 @@ class LogstashFormatter extends NormalizerFormatter
     protected $serviceName;
     protected $environment;
     protected $channel;
+    /**
+     * @var bool
+     */
+    private $showLogType;
 
     /**
      * @param  string  $serviceName  the application that sends the data, used as the "service" field of logstash
@@ -28,7 +32,7 @@ class LogstashFormatter extends NormalizerFormatter
      * @param  string  $environment  the environment, used as the "environment" field of logstash
      * @param  string  $channel      the channel, used in filebeat to distinguish the application
      */
-    public function __construct(array $fields ,string $serviceName, string $bankname, ?string $channel, string $environment)
+    public function __construct(array $fields, bool $showLogType, string $serviceName, string $bankname, ?string $channel, string $environment)
     {
         // logstash requires a ISO 8601 format date with optional millisecond precision.
         parent::__construct('Y-m-d\TH:i:s.uP');
@@ -37,6 +41,7 @@ class LogstashFormatter extends NormalizerFormatter
         $this->environment = $environment;
         $this->channel = $channel;
         $this->fields = $fields;
+        $this->showLogType = $showLogType;
     }
 
     /**
@@ -46,7 +51,7 @@ class LogstashFormatter extends NormalizerFormatter
     {
         $record = parent::format($record);
 
-        $content = new LogContent($this->fields);
+        $content = new LogContent($this->fields, $this->showLogType);
 
         $content->addFromRecord($record);
 

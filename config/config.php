@@ -26,5 +26,6 @@ return [
             'extra',
             'log_type',
         ],
+        'showLogType' => true,
     ]
 ];
