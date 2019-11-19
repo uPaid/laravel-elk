@@ -75,6 +75,31 @@ return [
 ];
 ```
 
+#### Hiding sensitive data
+In order to remove sensitive data from the log file content you can add `mask.fields` property to the config file
+and specify the values of which fields should be hidden. Fields values will be replaced with `mask.replacement` property.
+It's also possible to hide values according to the patterns specified in `mask.patterns`. The example represents
+replacement of card number.
+```
+<?php
+
+return [
+    'mask' => [
+        'replacement' => '[MASKED]',
+        'fields' => [
+            'password',
+            'new_password',
+            'password_confirmation',
+            'card_no',
+            'cvc',
+        ],
+        'patterns' => [
+            '/^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/',
+        ],
+    ]
+];
+```
+
 #### Add logging channel
 
 Add elk channel to the channels array in the config/logging.php config file as follows:

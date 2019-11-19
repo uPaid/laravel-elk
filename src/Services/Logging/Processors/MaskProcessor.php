@@ -4,9 +4,16 @@ namespace Upaid\Elk\Services\Logging\Processors;
 
 class MaskProcessor
 {
-    const MASKED = '[MASKED]';
+    protected $keysToMask;
+    protected $patternsToMask;
+    protected $mask;
 
-    protected $keysToMask = ['card_no', 'password', 'password_confirmation'];
+    public function __construct(array $keysToMask, array $patternsToMask, string $mask = '[MASKED]')
+    {
+        $this->keysToMask = $keysToMask;
+        $this->patternsToMask = $patternsToMask;
+        $this->mask = $mask;
+    }
 
     public function __invoke(array $record)
     {
@@ -19,6 +26,7 @@ class MaskProcessor
                 $this->mask($record['context']);
             }
         }
+
         return $record;
     }
 
@@ -38,11 +46,10 @@ class MaskProcessor
     private function mask(&$content, $key = null)
     {
         if ($key && in_array($key, $this->keysToMask)) {
-            $content = self::MASKED;
+            $content = $this->mask;
+
             return;
         }
-
-        $content = preg_replace('/"card_no":"\d{12}/', '"card_no":"' . self::MASKED, $content);
 
         foreach ($this->keysToMask as $key) {
             $this->replace($key, $content);
@@ -52,6 +59,9 @@ class MaskProcessor
     private function replace(string $key, &$content)
     {
         $content = preg_replace('/"' . $key . '":( |\t)+"/', '"' . $key . '":"', $content);
-        $content = preg_replace('/"' . $key . '":"(.+?)"/', '"' . $key . '":"' . self::MASKED . '"', $content);
+        $content = preg_replace('/"' . $key . '":"(.+?)"/', '"' . $key . '":"' . $this->mask . '"', $content);
+        foreach ($this->patternsToMask as $pattern) {
+            $content = preg_replace($pattern, $this->mask, $content);
+        }
     }
 }

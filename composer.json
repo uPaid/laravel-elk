@@ -5,7 +5,7 @@
     "homepage": "https://github.com/uPaid/laravel-elk",
     "keywords": ["Laravel", "elk"],
     "require": {
-        "illuminate/support": "~5"
+        "laravel/framework": "5.8.*"
     },
     "autoload": {
         "psr-4": {

@@ -2,6 +2,7 @@
 
 namespace Upaid\Elk\Services\Logging;
 
+use Exception;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as BaseLogger;
 use Upaid\Elk\Services\Logging\Formatters\LogstashFormatter;
@@ -13,12 +14,12 @@ class Logger extends BaseLogger
 {
     /**
      * Logger constructor.
-     * @param $name Log file name
-     * @param array $handlers
-     * @param array $processors
-     * @throws \Exception
+     * @param  string  $name  Log file name
+     * @param  array   $handlers
+     * @param  array   $processors
+     * @throws Exception
      */
-    public function __construct($name, array $handlers = [], array $processors = [])
+    public function __construct(string $name, array $handlers = [], array $processors = [])
     {
         $streamHandler = new StreamHandler($this->getPathToFile($name), BaseLogger::DEBUG);
         $streamHandler->setFormatter(new LogstashFormatter(
@@ -32,7 +33,11 @@ class Logger extends BaseLogger
 
         parent::__construct('custom', [$streamHandler], [
             app(TraceSpanProcessor::class),
-            new MaskProcessor(),
+            new MaskProcessor(
+                config('elk.mask.fields', []),
+                config('elk.mask.patterns', []),
+                config('elk.mask.replacement')
+            ),
             new IntrospectionProcessor()
         ]);
     }
